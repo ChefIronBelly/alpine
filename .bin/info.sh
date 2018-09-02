@@ -61,8 +61,8 @@ print-mem() {
 }
 
 print-wm() {
-    for wm in ${wms[@]}; do          # pgrep through wmname array
-        pid=$(pgrep -x -u $USER $wm)		# if found, this wmname has running process
+    for wm in ${wms[@]}; do        # pgrep through wmname array
+        pid=$(pgrep -x $wm)			# if found, this wmname has running process
         if [[ "$pid" ]]; then
             color-echo 'WM' '       '"$wm"
 	        break
