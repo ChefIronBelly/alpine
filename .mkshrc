@@ -6,10 +6,6 @@
 HISTFILE=~/.mksh/history
 HISTSIZE=5000
 
-#for h in ~/.etc/*; do
-#	source "${h}"
-#done
-
 #### SAFETY ####
 
 alias rm='rm -iv'
@@ -20,9 +16,9 @@ alias ln='ln -i'
 #alias ..='cd ../'
 #alias ...='cd ../../'
 #alias ....='cd ../../../'
-#alias ls='colorls -G'
-#alias la='colorls -A'
-#alias ll='colorls -L'
+alias ls='ls --color=auto'
+alias la='ls -la --color=auto'
+alias ll='ls -ll --color=auto'
 alias md='mkdir -p -v'
 alias rd='rmdir -v'
 alias h='fc -l'
@@ -30,13 +26,12 @@ alias p='pwd'
 alias manb='man -H'
 alias grep='grep --color=auto'
 alias curl='curl -C - -LO'
-alias install='sudo pkgin install'
-alias remove='sudo pkgin remove'
-alias pupd='sudo pkgin update'
-alias pupg='sudo pkgin full-upgrade'
-alias search='sudo pkgin search'
-alias autoremove='sudo pkgin autoremove'
-alias clean='sudo pkgin clean'
+alias add='sudo apk add'
+alias del='sudo apk del'
+alias upd='sudo apk update'
+alias upg='sudo apk upgrade'
+alias search='sudo apk search'
+alias clean='sudo apk cache'
 
 # REBOOT/SHUTDOWN
 alias reboot='sudo /sbin/reboot'
@@ -69,7 +64,7 @@ alias g='git'
 alias gc='git commit -m "adds and tweaks"'
 alias umount='sudo umount /mnt/$1'
 alias view='imlib2_view'
-alias grabyourscrot='imlib2_grab'
+alias grabascrot='imlib2_grab'
 
 PS1=""
  case `id -u` in
