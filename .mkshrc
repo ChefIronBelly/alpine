@@ -39,9 +39,9 @@ alias autoremove='sudo pkgin autoremove'
 alias clean='sudo pkgin clean'
 
 # REBOOT/SHUTDOWN
-alias reboot='sudo /sbin/shutdown -r now "R E B O O T"'
-alias poweroff='sudo /sbin/shutdown -p now "P O W E R O F F"'
-alias shutdown='sudo /sbin/shutdown -p now "Going D O W N to the crossroads"'
+alias reboot='sudo /sbin/reboot'
+alias poweroff='sudo /sbin/poweroff'
+alias shutdown='sudo /sbin/halt'
 
 # Space on drive
 alias disk='du -h | sort -n -r |more'
