@@ -31,7 +31,7 @@ alias del='sudo apk del'
 alias upd='sudo apk update'
 alias upg='sudo apk upgrade'
 alias search='sudo apk search'
-alias clean='sudo apk cache'
+alias clean='sudo apk -v cache clean'
 
 # REBOOT/SHUTDOWN
 alias reboot='sudo /sbin/reboot'
