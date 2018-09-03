@@ -69,7 +69,7 @@ alias g='git'
 alias gc='git commit -m "adds and tweaks"'
 alias umount='sudo umount /mnt/$1'
 alias view='imlib2_view'
-alias grab='imlib2_grab'
+alias grabyourscrot='imlib2_grab'
 
 PS1=""
  case `id -u` in
