@@ -64,7 +64,8 @@ alias g='git'
 alias gc='git commit -m "adds and tweaks"'
 alias umount='sudo umount /mnt/$1'
 alias view='imlib2_view'
-alias grabascrot='imlib2_grab'
+alias grab='imlib2_grab'
+alias stime='sudo ntpd -d -q -n -p north-america.pool.ntp.org'
 
 PS1=""
  case `id -u` in
