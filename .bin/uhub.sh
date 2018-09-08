@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [ -d "/home/chef/Source/OOTB-defaults" ]; then
-cd /home/chef/Source/OOTB-defaults && echo "[Updating] Out of the Box ..." && git pull
+if [ -d "/home/chef/Source/alpine" ]; then
+cd /home/chef/Source/alpine && echo "[Updating] Alpine ..." && git pull
 fi
 if [ -d "/home/chef/Source/BSD-Configs" ]; then
 cd /home/chef/Source/BSD-Configs && echo "[Updating] BSD-Configs ..." && git pull
@@ -24,7 +24,4 @@ fi
 if [ -d "/home/chef/Source/sxhkd" ]; then
 cd /home/chef/Source/sxhkd && echo "[Updating] shxkd ..." && git pull
 fi 
-if [ -d "/home/chef/Source/Base" ]; then
-cd /home/chef/Source/Base && echo "[Updating] Pur Linux base ..." && git pull
-fi
 echo "[All] githubs updated ..."
