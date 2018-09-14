@@ -58,6 +58,8 @@ alias view='imlib2_view'
 alias grab='imlib2_grab'
 alias stime='sudo ntpd -d -q -n -p north-america.pool.ntp.org'
 alias rnet='sudo /etc/init.d/networking restart'
+alias grab='imlib2_grab'
+alias view='imlib2_view'
 
 PS1=""
  case `id -u` in
