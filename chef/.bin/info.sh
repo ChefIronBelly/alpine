@@ -78,7 +78,8 @@ print-font() {
 }
 
 print-distro() {
-	PRETTY_NAME=$(uname)
+#	PRETTY_NAME=$(uname)
+. /etc/os-release
 	if [[ -n "$PRETTY_NAME" ]]; then
         color-echo 'OS' '       '"$PRETTY_NAME"
 	else
