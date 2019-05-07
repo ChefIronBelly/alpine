@@ -1,7 +1,7 @@
-#/media/sdf/apks
+#/media/sdf1/apks
 #http://mirrors.gigenet.com/alpinelinux/v3.9/main
 #http://mirrors.gigenet.com/alpinelinux/v3.9/community
 http://mirrors.gigenet.com/alpinelinux/edge/main
 http://mirrors.gigenet.com/alpinelinux/edge/community
-http://mirrors.gigenet.com/alpinelinux/edge/testing
+#http://mirrors.gigenet.com/alpinelinux/edge/testing
 
