@@ -31,6 +31,7 @@ mksh
 mpg123
 musl-dev
 ncurses
+openssh
 openssl
 pciutils
 scrot
@@ -38,6 +39,7 @@ sudo
 syslinux
 tmux
 ttf-dejavu
+vim
 wireless-tools
 wpa_supplicant
 xclock
