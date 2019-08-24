@@ -5,6 +5,8 @@ setxkbmap -layout us -option ctrl:nocaps
 
 xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
 
+#xrandr --output VGA1 --mode 1920x1080_60.00 
+
 xset +dpms
 xset -b
 xset s 1860
@@ -13,7 +15,7 @@ xset +fp ~/.fonts
 xset fp rehash
 
 xrdb < ~/.Xdefaults
-xsidle.sh lock &
+#xsidle.sh lock &
 
 xsetroot -cursor_name left_ptr
 #hsetroot -fill ~/Pictures/walls/traffic.jpg -blur .5

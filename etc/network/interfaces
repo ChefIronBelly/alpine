@@ -3,6 +3,5 @@ iface lo inet loopback
 
 auto eth0
 iface eth0 inet dhcp
-	hostname integrity
-auto usb0
-iface usb0 inet dhcp
+	hostname momofuku
+
