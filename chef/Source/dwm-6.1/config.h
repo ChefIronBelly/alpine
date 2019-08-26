@@ -5,12 +5,12 @@ static const char *fonts[] = {
 	"menlo:size=10"
 };
 static const char dmenufont[]       = "menlo:size=10";
-static const char normbordercolor[] = "#2E3440";
-static const char normbgcolor[]     = "#2E3440";
-static const char normfgcolor[]     = "#D8DEE9";
+static const char normbordercolor[] = "#3B4252";
+static const char normbgcolor[]     = "#3B4252";
+static const char normfgcolor[]     = "#E5E9F0";
 static const char selbordercolor[]  = "#81A1C1";
 static const char selbgcolor[]      = "#81A1C1";
-static const char selfgcolor[]      = "#2E3440";
+static const char selfgcolor[]      = "#3b4251";
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 8;        /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
