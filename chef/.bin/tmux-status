@@ -105,10 +105,10 @@ vpn()
 }
 clock()
 {
-	mtime=$(date +'%H:%M')
-	myear=$(date +'%Y-%m-')
+	mtime=$(date +'%I:%M ')
+	myear=$(date +'%a %b %d,')
 	mday=$(date +'%d')
-	echo "#[fg=$C5]#[bg=$C4] $mtime #[fg=$C6]$myear#[fg=$C5]$mday #[fg=$C6]$EOL"
+	echo "#[fg=$C5]#[bg=$C4] $myear #[fg=$C6]$mtime#[fg=$C5]$EOL"
 }
 front()
 {
@@ -116,4 +116,4 @@ front()
 }
 CPU_INFO=`cpu`
 RAM_INFO=`ram`
-echo `front` `bat` `draw $RAM_INFO 4` `temp` `draw $CPU_INFO 7` `vpn` `clock`
+echo `front` `clock`
