@@ -1,7 +1,10 @@
-#/media/usb/apks
+#/media/sdb1/apks
 #http://mirrors.gigenet.com/alpinelinux/v3.10/main
 #http://mirrors.gigenet.com/alpinelinux/v3.10/community
 http://mirrors.gigenet.com/alpinelinux/edge/main
 http://mirrors.gigenet.com/alpinelinux/edge/community
 #http://mirrors.gigenet.com/alpinelinux/edge/testing
 
+#http://dl-cdn.alpinelinux.org/alpine/edge/main
+#http://dl-cdn.alpinelinux.org/alpine/edge/community
+#http://dl-cdn.alpinelinux.org/alpine/edge/testing
