@@ -1,2 +1,4 @@
 syntax on
-color nord
+colorscheme base16-material
+
+

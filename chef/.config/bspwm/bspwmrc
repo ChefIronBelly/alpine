@@ -1,0 +1,30 @@
+#! /bin/sh
+
+# Start the panel
+#/home/chef/.config/bspwm/panel &
+#sxhkd -c /home/chef/.config/sxkhd/sxhkdrc & 
+
+# Set background
+#feh --bg-fill /home/chef/Pictures/Wallpapers/current.jpg &
+
+bspc monitor -d I II III IV V VI VII VIII IX X
+
+# Set colors
+bspc config focused_border_color "#82AAFF"
+bspc config normal_border_color "#263238"
+bspc config active_border_color "#8C8A88"
+bspc config presel_border_color "#79CDCD"
+bspc config urgent_border_color "#79CDCD"
+
+bspc config border_width         6
+bspc config window_gap          12
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a firefox desktop='^2'
+bspc rule -a mpv state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off

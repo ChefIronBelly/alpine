@@ -58,6 +58,7 @@ alias view='imlib2_view'
 alias grab='imlib2_grab'
 alias stime='sudo ntpd -dnq -p pool.ntp.org'
 alias rnet='sudo /etc/init.d/networking restart'
+alias mp3='youtube-dl -x --embed-thumbnail --audio-format mp3'
 
 PS1=""
  case `id -u` in

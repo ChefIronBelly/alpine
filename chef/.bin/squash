@@ -1,0 +1,385 @@
+#!/usr/bin/env bash
+#
+# a simple bash script to manage and apply
+# colors to applications on unix systems
+#
+# written by Joshua Ervin
+# jlervin@posteo.net
+
+CACHE_DIR="${HOME}/.cache/squash"
+THEME_DIR="${HOME}/.config/squash/themes"
+CONFIG_DIR="${HOME}/.config/squash"
+NEWLINE=$'\n'
+
+usage()
+{
+printf "%s" "\
+Usage: squash [-h] [-c /path/to/config/file]
+              [-b] [-n] [-w] [-t] [-l]
+              [-w] [-d] [-f]
+              [-e /path/to/external/script]
+              [/path/to/file]
+
+Example: squash gruvbox
+         squash -n agila
+
+Flags:
+  -h    display this message
+  -c    configuration file location
+  -b    don't reload bar
+  -n    dont't reload nvim
+  -w    don't change wallpaper
+  -t    don't reload terminals
+  -m    don't reload windowmanager 
+  -d    don't reload dunst 
+  -f    don't write files
+  -e    run script after squash
+  -l    list all available themes
+"
+exit 0
+}
+
+update_terminals() 
+{
+    local sequence=""
+
+    for i in {0..15}; do 
+        sequence+="\033]4;${i};${COLOR_ARRAY[${i}]}\007"
+    done
+
+    for i in 10 12 13; do 
+        sequence+="\033]${i};${FG}\007"
+    done
+
+    for i in 11 14 708; do 
+        sequence+="\033]${i};${BG}\007"
+    done
+    
+    if [[ $SQUASH_FONT ]]; then
+        sequence+="\033]50;${SQUASH_FONT}\007"
+        sequence+="\033]711;${SQUASH_FONT}\007"
+    fi
+
+
+    reload_terminals "${sequence}"
+}
+
+update_wm() 
+{
+    if [[ ! $(command -v wmctrl) ]]; then
+        printf "Error: wmctrl not found, wm will not be reloaded\n"
+    else
+        wm=$(wmctrl -m | grep Name | cut -d' ' -f2)
+        case ${wm} in
+            $"dwm")
+                reload_dwm
+            ;;
+            $"bspwm")
+                reload_bspwm
+            ;;
+            $"windowchef")
+                reload_chef
+            ;;
+            $"i3")
+                reload_i3
+            ;;
+            $"herbstluftwm")
+                reload_herbst
+            ;;
+            $"berry")
+                reload_berry
+            ;;
+        esac
+    fi
+}
+
+update_nvim()
+{
+    if [[ -z ${VIM_SCHEME} ]]; then
+        printf "Error: VIM_SCHEME not set: not changing vim colorscheme\n"
+    else
+        sed -i -e "s/colorscheme .*/colorscheme $VIM_SCHEME/g" $VIM_CONFIG
+        reload_nvim
+    fi
+}
+
+update_bar() 
+{
+    if [[ $(pgrep lemonbar) ]]; then
+        pkill -x lemonbar
+    elif [[ $(pgrep polybar) ]]; then
+        pkill -x polybar
+    fi
+    ( ${BAR_SCRIPT} &) > /dev/null 2>&1
+}
+
+update_wall()
+{
+    if [[ -z ${WALLPAPER_PATH} ]]; then
+        printf "Error: WALLPAPER_PATH not set: not changing wallpaper\n"
+    elif [[ $(command -v hsetroot) ]]; then
+        hsetroot -"${WALLPAPER_STYLE}" "${WALLPAPER_PATH}"
+    elif [[ $(command -v feh) ]]; then
+        if [[ ${WALLPAPER_STYLE} == "tile" ]]; then
+            feh --bg-fill "${WALLAPPER_PATH}"
+        else
+            feh --bg-tile "${WALLPAPER_PATH}"
+        fi
+
+    elif [[ $(command -v nitrogen) ]]; then
+        if [[ ${WALLPAPER_STYLE} == "tile" ]]; then
+            nitrogen --set-tiled "${WALLAPPER_PATH}"
+        else
+            nitrogen --set-zoom "${WALLPAPER_PATH}"
+        fi
+    fi
+}
+
+update_dunst()
+{
+    if [[ -z ${DUNST_PATH} ]]; then
+        printf "Error: Dunst path not set: not reloading dunst\n"
+    else
+        killall dunst
+        sed -i "s/background.*/background = \"${BLK}\"/g" "${DUNST_PATH}"
+        sed -i "s/foreground.*/foreground = \"${FG}\"/g" "${DUNST_PATH}"
+        dunst &
+        notify-send "DUNST RELOADED"
+    fi
+}
+
+reload_dwm() 
+{
+    local dir="${DWM_PATH}"
+    local file="${DWM_PATH}/config.h"
+
+    local wmcol=$(cat ${file}|awk '/\*colors/ {print $6}'|cut -d '}' -f1|awk '{gsub(/"/," ");print $1,$1,$5,$1,$9}') 
+    local arr=($wmcol)
+
+    sed -i "s/col_gray1[]      = "#w
+	    "s/${arr[0]}/"${col_gray1}"/;
+            s/${arr[1]}/"${col_gray2}"/;
+            s/${arr[2]}/"${col_gray3}"/;
+            s/${arr[3]}/"${col_gray4}"/;
+            s/${arr[4]}/"${col_cyan}"/;
+
+    cd ${dir} && make && sudo make install && cd
+
+    #xdotool key "super+ctrl+r"
+}
+
+reload_herbst()
+{
+    herbstclient reload &
+}
+
+reload_berry()
+{
+    . $HOME/.config/berry/autostart
+}
+
+reload_i3()
+{
+    if [[ ! $(command -v nvr) ]]; then
+        printf "Error: i3-msg not found\n"
+    else
+        i3-msg reload
+        i3-msg restart
+    fi
+}
+
+reload_bspwm()
+{
+    if [[ -z ${BSPWM_PATH} ]]; then
+        printf "Error: BSPWM_PATH not found, not reloading bspwm\n"
+    else
+        "${BSPWM_PATH}/bspwmrc" &
+    fi
+}
+
+reload_chef()
+{
+    if [[ -z ${CHEF_PATH} ]]; then
+        printf "Error: CHEF_PATH not found, not reloading windowchef\n"
+    else
+        "${CHEF_PATH}/windowchefrc" &
+    fi
+}
+
+reload_ob() {
+    if [[ -z ${OB_PATH} ]]; then
+        printf "Error: OB_PATH not found, not reloading openbox\n"
+    else
+        sed -i -e "s/<theme>\n <name>*<\/name>/<theme>\n <name>"${OB_THEME}"<\/name>/g" "$OB_PATH/rc.xml"
+        openbox --reconfigure
+    fi
+}
+
+reload_nvim()
+{
+    if [[ ! $(command -v nvr) ]]; then
+        printf "Error:: neovim-remote not found\n"
+        printf "Please install nvr to reload neovim\n"
+    else
+        inst=($(nvr --serverlist | grep nvim | sort | uniq))
+
+        for nvim_inst in "${inst[@]}"; do 
+            nvr --servername "${nvim_inst}" --remote-send '<Esc>:so ${HOME}/.config/nvim/init.vim<CR>' &
+        done
+    fi
+}
+
+reload_terminals() 
+{
+    local seq="${1}"
+
+    for term in /dev/pts/[0-9]*; do
+        printf "%b" "${seq}" > "${term}"
+    done
+}
+
+write_x() 
+{
+   local x_output=""
+   local x_output+="*.foreground:   ${FG}${NEWLINE}"
+   local x_output+="*.background:   ${BG}${NEWLINE}"
+   local x_output+="*.cursorColor:  ${FG}${NEWLINE}"
+
+   for i in {0..15}; do
+      local x_output+="*.color${i}: ${COLOR_ARRAY[${i}]}${NEWLINE}"
+   done
+
+   local rofi_output=""
+   local rofi_output+="rofi.color-enaled: true${NEWLINE}"
+   #                                        bg      fg     bgalt  hlbg     hlfg
+   local rofi_output+="rofi.color-window: ${BLK}, ${BLK}, ${BLK}${NEWLINE}"
+   local rofi_output+="rofi.color-normal: ${BLK}, ${FG}, ${BLK}, ${BBLK}, ${ACC}${NEWLINE}"
+
+   local twobwm_output=""
+   local twobwm_output+="twobwm.focus_color: ${TWOBWM_FOCUS}${NEWLINE}"
+   local twobwm_output+="twobwm.unfocus_color: ${TWOBWM_FOCUS}${NEWLINE}"
+   local twobwm_output+="twobwm.fixed_color: ${TWOBWM_FIXED}${NEWLINE}"
+   local twobwm_output+="twobwm.unkill_color: ${TWOBWM_UNKILL}${NEWLINE}"
+   local twobwm_output+="twobwm.outer_border_color: ${TWOBWM_OUTR}${NEWLINE}"
+   local twobwm_output+="twobwm.fixed_unkill_color: ${TWOBWM_UNKILL}${NEWLINE}"
+
+   if [[ $SQUASH_FONT ]]; then
+       local x_output+="URxvt*font:${SQUASH_FONT}${NEWLINE}"
+       local x_output+="URxvt*boldFont:${SQUASH_FONT}${NEWLINE}"
+   fi
+
+   local output="${x_output}${rofi_output}${twobwm_output}"
+   printf "${output}" > "${CACHE_DIR}/x_colors"
+}
+
+write_css() 
+{
+   local css_output=""
+   local css_output+=":root {${NEWLINE}"
+   local css_output+="\t--wallpaper: url("${wallpaper}");${NEWLINE}"
+   local css_output+="\t--background: ${BG};${NEWLINE}"
+   local css_output+="\t--foreground: ${FG};${NEWLINE}"
+   for i in {0..15}; do 
+       local css_output+="\t--color${i}: ${COLOR_ARRAY[${i}]};${NEWLINE}"
+   done
+   local css_output+="}"
+
+   printf "${css_output}" > "${CACHE_DIR}/colors.css"
+}
+
+write_sh() 
+{
+    rm -f ${CACHE_DIR}/colors
+    cp ${THEME_DIR}/${COLOR_SCHEME} ${CACHE_DIR}/colors
+}
+
+write_plain()
+{
+    for i in {0..15}; do 
+        local output+="${COLOR_ARRAY[${i}]}${NEWLINE}"
+    done
+
+    local output+="${BG}${NEWLINE}"
+    local output+="${FG}${NEWLINE}"
+
+    printf "${output}" > "${CACHE_DIR}/colors.txt"
+}
+
+list_files()
+{
+    for file in ${THEME_DIR}/*; do
+        if [[ -f $file ]]; then
+            printf "$(basename "${file}")${NEWLINE}"
+        fi
+    done
+}
+
+run_post()
+{
+    if [[ ! $(command ${EXTERNAL_SCRIPT}) ]]; then
+        printf "Error, external script not found${NEWLINE}"
+    else
+        ${EXTERNAL_SCRIPT} &
+    fi
+}
+
+get_args()
+{
+    while getopts ":hc:bnwtmdfe:l" opt; do
+        case "$opt" in
+            "h") usage ;;
+            "c") CONFIG_FILE="${OPTARG}" ;;
+            "b") RELOAD_BAR="NO" ;;
+            "n") RELOAD_NVIM="NO" ;;
+            "w") RELOAD_WALLPAPER="NO" ;;
+            "t") RELOAD_TERMINALS="NO" ;;
+            "m") RELOAD_WM="NO" ;;
+            "d") RELOAD_DUNST="NO" ;;
+            "f") WRITE_ALL="NO" ;;
+            "e") EXTERNAL_SCRIPT="${OPTARG}" ;;
+            "l") list_files; exit 1;;
+
+            "?")
+                printf "%s\n" "Invalid option: -$OPTARG" >&2
+                exit 1
+            ;;
+
+            ":")
+                printf "%s\n" "Option -$OPTARG requires an argument." >&2
+                exit 1
+            ;;
+        esac
+    done
+
+    shift $(($OPTIND - 1))
+    COLOR_SCHEME="${1}"
+    [[ ! -f ${THEME_DIR}/${COLOR_SCHEME} ]] && usage
+}
+
+main()
+{
+    mkdir -p $HOME/.cache/squash
+    get_args "${@}"
+    source "${CONFIG_DIR}/defaults"
+    source "${THEME_DIR}/${COLOR_SCHEME}"
+
+    COLOR_ARRAY=($BLK $RED $GRN $YLW $BLU $MAG $CYN $WHT \
+                 $BBLK $BRED $BGRN $BYLW $BBLU $BMAG $BCYN $BWHT)
+
+    [[ ! "${WRITE_ALL}" = "NO" ]] && write_x
+    [[ ! "${WRITE_ALL}" = "NO" ]] && write_sh
+    [[ ! "${WRITE_ALL}" = "NO" ]] && write_css
+    [[ ! "${WRITE_ALL}" = "NO" ]] && write_plain
+
+    xrdb "${HOME}/.Xresources"
+
+    [[ "${RELOAD_WALLPAPER}" != "NO" ]] && update_wall 
+    [[ "${RELOAD_TERMINALS}" != "NO" ]] && update_terminals
+    [[ "${RELOAD_NVIM}" != "NO" ]] && update_nvim
+    [[ "${RELOAD_BAR}" != "NO" ]] && update_bar
+    [[ "${RELOAD_WM}" != "NO" ]] && update_wm
+    [[ "${RELOAD_DUNST}" != "NO" ]] && update_dunst
+    [[ $(command ${EXTERNAL_SCRIPT})  ]] && run_post
+}
+
+main "${@}"

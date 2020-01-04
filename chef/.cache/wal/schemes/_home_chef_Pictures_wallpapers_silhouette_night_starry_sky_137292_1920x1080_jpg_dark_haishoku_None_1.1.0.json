@@ -1,0 +1,27 @@
+{
+    "wallpaper": "/home/chef/Pictures/wallpapers/silhouette_night_starry_sky_137292_1920x1080.jpg",
+    "alpha": "100",
+    "special": {
+        "background": "#151617",
+        "foreground": "#c4c4c5",
+        "cursor": "#c4c4c5"
+    },
+    "colors": {
+        "color0": "#151617",
+        "color1": "#223568",
+        "color2": "#75343c",
+        "color3": "#82647d",
+        "color4": "#7386be",
+        "color5": "#dc7b76",
+        "color6": "#f6c892",
+        "color7": "#c4c4c5",
+        "color8": "#4f5051",
+        "color9": "#223568",
+        "color10": "#75343c",
+        "color11": "#82647d",
+        "color12": "#7386be",
+        "color13": "#dc7b76",
+        "color14": "#f6c892",
+        "color15": "#c4c4c5"
+    }
+}

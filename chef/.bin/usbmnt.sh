@@ -1,4 +1,4 @@
 #! /bin/sh
 # 
 
-sudo mount -t vfat /dev/sdf1 /media/usb
+sudo mount -t vfat /dev/sdg1 /mnt/usb
