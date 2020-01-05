@@ -1,7 +1,7 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define MOD Mod4Mask
+#define MOD Mod1Mask
 
 const char* menu[]    = {"dmenu_run",      0};
 const char* term[]    = {"st",             0};
@@ -11,7 +11,7 @@ const char* bridown[] = {"bri", "10", "-", 0};
 const char* voldown[] = {"amixer", "sset", "Master", "5%-",         0};
 const char* volup[]   = {"amixer", "sset", "Master", "5%+",         0};
 const char* volmute[] = {"amixer", "sset", "Master", "toggle",      0};
-const char* colors[]  = {"bud", "/home/goldie/Pictures/Wallpapers", 0};
+const char* colors[]  = {"bud", "/home/chef/Pictures/Wallpapers", 0};
 
 static struct key keys[] = {
     {MOD,      XK_q,   win_kill,   {0}},
@@ -26,11 +26,9 @@ static struct key keys[] = {
     {MOD, XK_p,      run, {.com = scrot}},
     {MOD, XK_Return, run, {.com = term}},
 
-    {0,   XF86XK_AudioLowerVolume,  run, {.com = voldown}},
-    {0,   XF86XK_AudioRaiseVolume,  run, {.com = volup}},
-    {0,   XF86XK_AudioMute,         run, {.com = volmute}},
-    {0,   XF86XK_MonBrightnessUp,   run, {.com = briup}},
-    {0,   XF86XK_MonBrightnessDown, run, {.com = bridown}},
+    {0,   XK_F10,	 run, {.com = voldown}},
+    {0,   XK_F11,    run, {.com = volup}},
+    {0,   XK_F12,    run, {.com = volmute}},
 
     {MOD,           XK_1, ws_go,     {.i = 1}},
     {MOD|ShiftMask, XK_1, win_to_ws, {.i = 1}},

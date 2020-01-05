@@ -1,0 +1,2 @@
+#!/bin/sh
+feh --no-fehbg --bg-fill '/home/chef/Pictures/Wallpapers/road_marking_fog_mountains_movement_120136_1920x1080.jpg' 
