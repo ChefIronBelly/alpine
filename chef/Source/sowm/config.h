@@ -1,17 +1,18 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define MOD Mod1Mask
+#define MOD Mod4Mask
 
-const char* menu[]    = {"dmenu_run",      0};
-const char* term[]    = {"st",             0};
-const char* scrot[]   = {"scr",            0};
-const char* briup[]   = {"bri", "10", "+", 0};
-const char* bridown[] = {"bri", "10", "-", 0};
-const char* voldown[] = {"amixer", "sset", "Master", "5%-",         0};
-const char* volup[]   = {"amixer", "sset", "Master", "5%+",         0};
-const char* volmute[] = {"amixer", "sset", "Master", "toggle",      0};
+const char* menu[]    = {"dmenu_run", 0};
+const char* term[]    = {"st", 0};
+const char* scrot[]   = {"scr", 0};
+const char* voldown[] = {"amixer", "sset", "Master", "5%-", 0};
+const char* volup[]   = {"amixer", "sset", "Master", "5%+", 0};
+const char* volmute[] = {"amixer", "sset", "Master", "toggle", 0};
 const char* colors[]  = {"bud", "/home/chef/Pictures/Wallpapers", 0};
+const char* surfcmd[] = {"firefox", "https://news.google.com", 0};
+const char* geanycmd[] = {"geany", 0};
+const char* somacmd[] = {"dmenu_soma.sh", 0};
 
 static struct key keys[] = {
     {MOD,      XK_q,   win_kill,   {0}},
@@ -21,14 +22,16 @@ static struct key keys[] = {
     {Mod1Mask,           XK_Tab, win_next,   {0}},
     {Mod1Mask|ShiftMask, XK_Tab, win_prev,   {0}},
 
-    {MOD, XK_d,      run, {.com = menu}},
+    {Mod1Mask|ShiftMask, XK_d, run, {.com = menu}},
     {MOD, XK_w,      run, {.com = colors}},
     {MOD, XK_p,      run, {.com = scrot}},
     {MOD, XK_Return, run, {.com = term}},
-
-    {0,   XK_F10,	 run, {.com = voldown}},
-    {0,   XK_F11,    run, {.com = volup}},
-    {0,   XK_F12,    run, {.com = volmute}},
+    {MOD, XK_F10,	 run, {.com = voldown}},
+    {MOD, XK_F11,    run, {.com = volup}},
+    {MOD, XK_F12,    run, {.com = volmute}},
+    {Mod1Mask|ShiftMask, XK_f, run,   {.com = surfcmd}},
+    {Mod1Mask|ShiftMask, XK_g, run,   {.com = geanycmd}},
+    {Mod1Mask|ShiftMask, XK_r, run,   {.com = somacmd}},   
 
     {MOD,           XK_1, ws_go,     {.i = 1}},
     {MOD|ShiftMask, XK_1, win_to_ws, {.i = 1}},
