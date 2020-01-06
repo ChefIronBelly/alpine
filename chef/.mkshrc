@@ -66,4 +66,8 @@ PS1=""
  	*) PS1="${PS1}$ ";;
  esac
 
-(paleta -r &)
+paleta -r
+
+sudo() {
+    su -c "$*"
+}

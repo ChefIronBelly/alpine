@@ -12,4 +12,4 @@ Xcursor.size: 24
 *.boldFont:     DejaVuSansMono-10
 
 ! color scheme
-#include </home/chef/.cache/wal/colors.Xresources>
+!#include </home/chef/.cache/wal/colors.Xresources>
