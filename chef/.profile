@@ -20,6 +20,14 @@ export VISUAL=${EDITOR}
 PATH=$HOME/.bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
 export PATH
 
+if test -z "${XDG_RUNTIME_DIR}"; then
+	export XDG_RUNTIME_DIR=/tmp/$(id -u)-runtime-dir
+	if ! test -d "${XDG_RUNTIME_DIR}"; then
+		mkdir "${XDG_RUNTIME_DIR}"
+		chmod 0700 "${XDG_RUNTIME_DIR}"
+	fi
+fi
+
 # Configure the shell to load .shrc at startup time.
 # This will happen for every shell started, not just login shells.
 export ENV=$HOME/.mkshrc

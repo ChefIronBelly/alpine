@@ -26,17 +26,17 @@ alias p='pwd'
 alias manb='man -H'
 alias grep='grep --color=auto'
 alias curl='curl -C - -LO'
-alias add='sudo apk add'
-alias del='sudo apk del'
-alias upd='sudo apk update'
-alias upg='sudo apk upgrade'
-alias search='sudo apk search'
-alias clean='sudo apk -v cache clean'
+alias add='doas apk add'
+alias del='doas apk del'
+alias upd='doas apk update'
+alias upg='doas apk upgrade'
+alias search='doas apk search'
+alias clean='doas apk -v cache clean'
 
 # REBOOT/SHUTDOWN
-alias reboot='sudo /sbin/reboot'
-alias poweroff='sudo /sbin/poweroff'
-alias shutdown='sudo /sbin/halt'
+alias reboot='doas /sbin/reboot'
+alias poweroff='doas /sbin/poweroff'
+alias shutdown='doas /sbin/halt'
 
 # Space on drive
 alias disk='du -h | sort -n -r |more'
@@ -46,18 +46,18 @@ alias preview='feh -g 450x300+500+200 -R .01 --zoom fill'
 alias rec='ffmpeg1 -f x11grab -s 1920x1080 -an -i :0.0 -c:v libvpx -b:v 5M -crf 10 -quality realtime -y -loglevel quiet'
 alias info='info.sh'
 alias todo='vim ~/todo'
-alias zzz='sudo pm-suspend'
+alias zzz='doas pm-suspend'
 alias shootme='DISPLAY=:0 import -window root ~/Pictures/scrots/scrot-$(date +%m-%d-%Y-%H-%M-%S).png'
 alias free='top -n 1 | head -n 5 | tail -n 2'
 alias ping='ping -c3'
 alias mc='mc -a'
 alias g='git'
 alias gc='git commit -m "adds and tweaks"'
-alias umount='sudo umount /media/$1'
+alias umount='doas umount /media/$1'
 alias view='imlib2_view'
 alias grab='imlib2_grab'
-alias stime='sudo ntpd -dnq -p pool.ntp.org'
-alias rnet='sudo /etc/init.d/networking restart'
+alias stime='doas ntpd -dnq -p pool.ntp.org'
+alias rnet='doas /etc/init.d/networking restart'
 alias mp3='youtube-dl -x --embed-thumbnail --audio-format mp3'
 
 PS1=""
@@ -66,8 +66,8 @@ PS1=""
  	*) PS1="${PS1}$ ";;
  esac
 
-paleta -r
+#paleta -r
 
-sudo() {
-    su -c "$*"
-}
+#doas() {
+#    su -c "$*"
+#}
