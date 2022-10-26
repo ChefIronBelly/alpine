@@ -18,15 +18,17 @@ set $term foot
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu bemenu_path | bemenu | xargs swaymsg exec --
-
+set $menu bemenu-run -p "▶" | xargs swaymsg exec --
+#set $menu bemenu-run --fn $uifont -b -p "▶" --tf "$prompt" --hf "$highlight" --sf "$highlight" --scf "$highlight" | xargs swaymsg exec
+#set $menu bemenu-run --fn $uifont -b -p "#" --tf "$prompt" | xargs swaymsg exec
 set $surf firefox
 set $edit geany
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg ~/Pictures/Wallpapers/Grass-Wallpaper-HD-30444.jpg fill
 #
 # Example configuration:
 #
@@ -201,6 +203,22 @@ bindsym $mod+r mode "resize"
 # My Stuff
 bindsym $mod+Shift+f exec $surf
 bindsym $mod+Shift+g exec $edit
+
+
+# Screenshots
+set $screenshot_file \"$HOME/Pictures/screenshot-$(date '+%Y-%m-%d_%H-%M-%S').png\"
+bindsym Print exec grim -s1 $screenshot_file
+bindsym $mod+Print exec (slurp | grim -g- -s1 $screenshot_file)
+
+#Idle 
+exec swayidle -w \
+         timeout 600 'swaylock -f -c 000000' \
+         timeout 300 'swaymsg "output * dpms off"' \
+              resume 'swaymsg "output * dpms on"' \
+         before-sleep 'swaylock -f -c 000000'
+
+#smart_borders on
+smart_gaps on
 
 #
 # Status Bar:
