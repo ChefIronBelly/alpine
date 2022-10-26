@@ -23,6 +23,7 @@ set $menu bemenu-run -p "▶" | xargs swaymsg exec --
 #set $menu bemenu-run --fn $uifont -b -p "#" --tf "$prompt" | xargs swaymsg exec
 set $surf firefox
 set $edit geany
+set $soma bemenu_soma.sh
 
 ### Output configuration
 #
@@ -203,6 +204,7 @@ bindsym $mod+r mode "resize"
 # My Stuff
 bindsym $mod+Shift+f exec $surf
 bindsym $mod+Shift+g exec $edit
+bindsym $mod+Shift+r exec $soma
 
 
 # Screenshots
