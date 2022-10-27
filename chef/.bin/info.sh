@@ -111,7 +111,7 @@ print-shell
 print-term
 #printf "\n"
 print-font
-colors='lit with bud' #
+colors='Nord — An arctic, north-bluish color palette' #
 printf "\e[34mCOLORS: \e[37m   $colors$rst\n"
 #printf "\n"
 print-disk
