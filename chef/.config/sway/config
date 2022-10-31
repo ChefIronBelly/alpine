@@ -202,9 +202,9 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 # My Stuff
-bindsym $mod+Shift+f exec $surf
-bindsym $mod+Shift+g exec $edit
-bindsym $mod+Shift+r exec $soma
+bindsym Alt+Shift+f exec $surf
+bindsym Alt+Shift+g exec $edit
+bindsym Alt+Shift+r exec $soma
 
 
 # Screenshots

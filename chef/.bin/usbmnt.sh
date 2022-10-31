@@ -1,4 +1,4 @@
 #! /bin/sh
 # 
 
-sudo mount -t vfat /dev/sdg1 /mnt/usb
+doas mount -t vfat /dev/sdc1 /media/usb
