@@ -3,6 +3,7 @@
 # modified by dkeg 
 # 2015 
 # additional output for mute,speaker,headphone
+# 2026 WIP
 
 test "$1" = "-h" && echo "usage `basename $0` [+|-|!]" && exit 0
 
