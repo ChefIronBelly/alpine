@@ -28,9 +28,9 @@ level() {
 test $# -eq 0 && echo "`level` `state`" && exit 0
 
 case $1 in
-            +)  amixer set Master 5+ >/dev/null;;
-            -)  amixer set Master 5%- >/dev/null;;
-            0)  amixer set Master toggle >/dev/null;;
+            +)  wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+;;
+            -)  wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-;;
+            0)  wpctl set-mute @DEFAULT_AUDIO_SINK@ 0;;
   state|level)  $1;;
             *)  amixer set Master $1 >/dev/null;;
 esac
