@@ -1,0 +1,28 @@
+Xft.dpi: 96
+Xft.autohint: 0
+Xft.antialias: 1
+Xft.hinting: true
+Xft.hintstyle: hintslight
+Xft.rgba: rgb
+Xft.lcdfilter: lcddefault
+Xcursor.theme: Adwaita
+Xcursor.size: 24
+
+*.internalBorder:  8
+*.scrollBar:           false
+!*.font:         xft:LiberationMono-Regular:size=12:antialias=true
+!*.boldFont: xft:LiberationSerif-Bold:bold:size=12:antialias=true
+
+!st.font:         JetBrainsMono Nerd Font:style:medium:pixelsize=13
+!st.font:          LiberationMono-Regular:size=12:antialias=true
+
+*.font:	Liberation Mono:pixelsize=12:antialias=true:autohint=true;
+
+! window padding
+st.borderpx: 10
+
+!- 0.1 to 0.9 = transparency
+st.alpha: 0.9
+
+! color scheme
+#include </home/chef/.colors/nord>
