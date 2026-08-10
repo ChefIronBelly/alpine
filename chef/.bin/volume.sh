@@ -1,37 +1,40 @@
 #!/bin/sh
-# original by z3bra
-# modified by dkeg 
-# 2015 
-# additional output for mute,speaker,headphone
-# 2026 WIP
+# Lightweight audio volume control script for Alpine Linux
 
-test "$1" = "-h" && echo "usage `basename $0` [+|-|!]" && exit 0
-
-state() {
-    amixer get Master | sed -n 's/^.*\[\(o[nf]\+\)]$/\1/p' | uniq
-  }
-
-level() {
-	vol=$(amixer get Master|awk 'NR==5 {print $4}'|cut -d '%' -f1 | cut -d '[' -f2) #sed -e 's/[//g')
-	mut=$(amixer get Master | awk 'NR==5 {print $6}')
-	head=$(cat /proc/asound/card0/codec#0 | awk 'NR==143 {print $2}')
-	  if [ $mut = "[off]" ] ;then
-	      lvl="Muted: "" "
-	  # check for headphones
-	  elif [ $head = "0x00:" ] ;then
-	      lvl="headphones: "$vol" "
-	  else
-	      lvl="speaker: "$vol" "
-  fi
-  echo $lvl
+get_volume() {
+    amixer sget Master | grep -MIo '\[[0-9]*%\]' | head -n 1 | tr -d '[]%'
 }
 
-test $# -eq 0 && echo "`level` `state`" && exit 0
+is_muted() {
+    amixer sget Master | grep -MIo '\[off\]' > /dev/null
+}
 
-case $1 in
-            +)  wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+;;
-            -)  wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-;;
-            0)  wpctl set-mute @DEFAULT_AUDIO_SINK@ 0;;
-  state|level)  $1;;
-            *)  amixer set Master $1 >/dev/null;;
+case "$1" in
+    up)
+        amixer sset Master 5%+ unmute > /dev/null
+        echo "Volume: $(get_volume)%"
+        ;;
+    down)
+        amixer sset Master 5%- unmute > /dev/null
+        echo "Volume: $(get_volume)%"
+        ;;
+    toggle)
+        amixer sset Master toggle > /dev/null
+        if is_muted; then
+            echo "Muted"
+        else
+            echo "Unmuted ($(get_volume)%)"
+        fi
+        ;;
+    status)
+        if is_muted; then
+            echo "Muted"
+        else
+            echo "Volume: $(get_volume)%"
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {up|down|toggle|status}"
+        exit 1
+        ;;
 esac
