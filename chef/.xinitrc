@@ -28,6 +28,6 @@ while true; do
 	sleep 60
 done &
 
-/usr/libexec/pipewire-launcher
+/usr/libexec/pipewire-launcher &
 
 dwm_start.sh
